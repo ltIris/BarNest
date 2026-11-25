@@ -22,7 +22,7 @@ BarNest 是一款用 Swift 和 AppKit 编写的 macOS 菜单栏收纳工具。�
 
 1. 前往 [Releases 页面](https://github.com/ltIris/BarNest/releases)，下载最新版本的 `BarNest-*-arm64.dmg`。普通使用者不需要安装 Xcode。
 2. 打开 DMG，将 `BarNest.app` 拖入「应用程序」文件夹，再从「应用程序」启动。
-3. 当前发布包面向 Apple Silicon Mac，最低目标版本为 macOS 26。由于使用系统私有接口，功能兼容性仍需在不同系统版本上验证。
+3. 当前发布包面向 Apple Silicon Mac。**已确认 macOS 26.6.2 无法使用图标收纳功能，偏好设置的图标列表也可能为空。**目前只在 macOS 27.2.1 上验证可用；其他版本请先查看兼容性说明。
 
 当前发布包使用本地自签证书，尚未经过 Apple 公证。若 macOS 阻止首次打开，可在尝试启动后进入「系统设置 → 隐私与安全性」，找到 BarNest 并选择「仍要打开」。后续版本若获得 Developer ID 签名与公证，将改进首次安装体验。
 
@@ -49,7 +49,7 @@ BarNest 是一款用 Swift 和 AppKit 编写的 macOS 菜单栏收纳工具。�
 
 ## 实现与兼容性
 
-BarNest 使用辅助功能接口读取菜单栏图标，并通过系统私有的 `MenuBarClientCore.framework` 管理收纳状态。私有接口可能随 macOS 更新而变化，相关功能无法保证在每个系统版本上都正常工作。当前构建目标为 macOS 26；开发环境为 macOS 27.2，macOS 26 上的实际兼容性仍需验证。
+BarNest 使用辅助功能接口读取菜单栏图标，并通过系统私有的 `MenuBarClientCore.framework` 管理收纳状态。当前实现还依赖 macOS 27 的 `MenuBarAgent` 扫描菜单栏图标。已确认在 macOS 26.6.2 上，隐藏接口不可用且图标列表为空，因此 **macOS 26 暂不受支持**。构建脚本中的 `macosx26.0` 只是二进制的最低运行目标，不表示图标收纳功能在该版本可用。
 
 ### 系统菜单栏的兼容限制
 
