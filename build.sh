@@ -14,7 +14,7 @@ cp "$ROOT/Info.plist" "$APP/Contents/Info.plist"
 cp "$ROOT/Resources/BarNest.icns" "$APP/Contents/Resources/BarNest.icns"
 
 swiftc -O \
-  -target arm64-apple-macosx27.2 \
+  -target arm64-apple-macosx26.0 \
   -o "$MACOS/BarNest" \
   "$ROOT/Sources/main.swift" \
   "$ROOT/Sources/AppDelegate.swift" \

@@ -18,6 +18,14 @@ BarNest 是一款用 Swift 和 AppKit 编写的 macOS 菜单栏收纳工具。�
 - 根据当前屏幕显示工作台；点击面板外部可关闭。
 - 提供恢复入口，避免收纳后找不到菜单栏按钮。
 
+## 下载与安装
+
+1. 前往 [Releases 页面](https://github.com/ltIris/BarNest/releases)，下载最新版本的 `BarNest-*-arm64.dmg`。普通使用者不需要安装 Xcode。
+2. 打开 DMG，将 `BarNest.app` 拖入「应用程序」文件夹，再从「应用程序」启动。
+3. 当前发布包面向 Apple Silicon Mac，最低目标版本为 macOS 26。由于使用系统私有接口，功能兼容性仍需在不同系统版本上验证。
+
+当前发布包使用本地自签证书，尚未经过 Apple 公证。若 macOS 阻止首次打开，可在尝试启动后进入「系统设置 → 隐私与安全性」，找到 BarNest 并选择「仍要打开」。后续版本若获得 Developer ID 签名与公证，将改进首次安装体验。
+
 ## 使用方式
 
 1. 启动 BarNest，按需在「系统设置 → 隐私与安全性 → 辅助功能」中授权。扫描真实菜单栏图标、触发原菜单和窗口操作需要此权限。
@@ -35,11 +43,13 @@ BarNest 是一款用 Swift 和 AppKit 编写的 macOS 菜单栏收纳工具。�
 ./build.sh
 ```
 
-脚本使用 `swiftc` 构建 Apple Silicon 版本，目标为 `arm64-apple-macosx27.2`，产物位于 `.build/BarNest.app`。需要安装支持此目标版本的 Xcode 和 macOS SDK。脚本会优先使用本机名为 `NotchTool Local Signing` 的签名身份；没有该身份时尝试临时签名。自行分发应用还需要处理签名和公证。
+脚本使用 `swiftc` 构建 Apple Silicon 版本，目标为 `arm64-apple-macosx26.0`，产物位于 `.build/BarNest.app`。只有从源码构建才需要安装支持此目标版本的 Xcode 和 macOS SDK。脚本会优先使用本机名为 `NotchTool Local Signing` 的签名身份；没有该身份时尝试临时签名。
+
+构建完成后运行 `./package-dmg.sh`，可在 `dist/` 生成带「应用程序」快捷入口的安装 DMG。
 
 ## 实现与兼容性
 
-BarNest 使用辅助功能接口读取菜单栏图标，并通过系统私有的 `MenuBarClientCore.framework` 管理收纳状态。私有接口可能随 macOS 更新而变化，相关功能无法保证在每个系统版本上都正常工作。当前构建脚本针对 macOS 27.2；macOS 26 上的实际兼容性仍需验证。
+BarNest 使用辅助功能接口读取菜单栏图标，并通过系统私有的 `MenuBarClientCore.framework` 管理收纳状态。私有接口可能随 macOS 更新而变化，相关功能无法保证在每个系统版本上都正常工作。当前构建目标为 macOS 26；开发环境为 macOS 27.2，macOS 26 上的实际兼容性仍需验证。
 
 ### 系统菜单栏的兼容限制
 
